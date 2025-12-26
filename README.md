@@ -38,10 +38,13 @@
 ### 🌐 Connect With Me
 
 <p align="left">
-  <a href="https://www.linkedin.com/company/xyberclan/">
+  <a href="https://www.linkedin.com/in/onana-gregoire-legrand-a18529282">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
-  <a href="https://youtube.com/@xyberclan">
+  <a href="https://www.facebook.com/psych0.Greg">
+    <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white" />
+  </a>
+  <a href="https://youtube.com/@psychogreg?si=Ztinu0HtBSMtFztj">
     <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   <a href="https://www.tiktok.com/@xyberclan">
