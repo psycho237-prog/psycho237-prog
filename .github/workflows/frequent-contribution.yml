@@ -12,7 +12,7 @@ concurrency:
 # Triggers: schedule + manual
 on:
   schedule:
-    - cron: '*/15 * * * *'  # every 15 minutes
+    - cron: '*/45 * * * *'  # every 45 minutes
   workflow_dispatch:
 
 jobs:
