@@ -2,40 +2,38 @@ name: Frequent Contribution
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Schedule the workflow to run every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   update:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          clean: true  # Clean the repository before checking out
+          clean: true
 
       - name: Update JSON file
         run: |
           current_date=$(date)
-          # Check if contributions.json exists
           if [ -f contributions.json ]; then
-            # Read existing contributions and append a new entry
-            # Convert the existing content to an array, then add the new object
             jq --arg name "psycho237-prog" --arg date "$current_date" \
             '. += [{"name": $name, "date": $date}]' contributions.json > contributions_temp.json
             mv contributions_temp.json contributions.json
           else
-            # If file does not exist, create it with the new entry as an array
             echo '[{"name": "psycho237-prog", "date": "'$current_date'"}]' > contributions.json
           fi
-
+        
       - name: Configure Git
         run: |
           git config --global user.email "gregoirelegrandpsycho@gmail.com"
           git config --global user.name "psycho237-prog"
-          
+
       - name: Commit and push changes
         run: |
           git add contributions.json
           git commit -m "Frequent contribution update" || echo "No changes to commit"
           git push
+
