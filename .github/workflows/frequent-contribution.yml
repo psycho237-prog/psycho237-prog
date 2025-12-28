@@ -1,0 +1,62 @@
+name: Frequent Contribution
+
+# Ensure GitHub Actions can write to the repo
+permissions:
+  contents: write
+
+# Avoid parallel runs
+concurrency:
+  group: frequent-contribution
+  cancel-in-progress: false
+
+# Triggers: schedule + manual
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          clean: true
+
+      # Show git status/log (optional)
+      - name: Show Git Status
+        run: git status
+      - name: Show Git Log
+        run: git log --oneline
+
+      # Update JSON file
+      - name: Update contributions.json
+        run: |
+          current_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          if [ -f contributions.json ]; then
+            jq --arg name "psycho237-prog" --arg date "$current_date" \
+            '. += [{"name": $name, "date": $date}]' contributions.json > contributions_temp.json
+            mv contributions_temp.json contributions.json
+          else
+            echo '[{"name": "psycho237-prog", "date": "'$current_date'"}]' > contributions.json
+          fi
+
+      # Configure Git as your account
+      - name: Configure Git
+        run: |
+          git config --global user.email "gregoirelegrandpsycho@gmail.com"
+          git config --global user.name "psycho237-prog"
+
+      # Commit and push using PAT
+      - name: Commit and push changes
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git add contributions.json
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Frequent contribution update"
+          git pull --rebase origin main
+          git push https://$PAT_TOKEN@github.com/psycho237-prog/psycho237-prog.git main
