@@ -10,15 +10,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          clean: true
 
       - name: Update JSON file
         run: |
           echo '{"name": "psycho237-prog", "date": "$(date)"}' >> contributions.json
 
-      - name: Commit and push changes
+      - name: Configure Git
         run: |
           git config --global user.email "gregoirelegrand14@gmail.com"
           git config --global user.name "psycho237-prog"
+          
+      - name: Commit and push changes
+        run: |
           git add contributions.json
-          git commit -m "Frequent contribution update"
+          git commit -m "Frequent contribution update" || echo "No changes to commit"
           git push
