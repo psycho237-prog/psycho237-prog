@@ -16,15 +16,16 @@ jobs:
 
       - name: Update JSON file
         run: |
-          # Read the existing contributions, add a new entry in a valid JSON format
           current_date=$(date)
+          # Check if contributions.json exists
           if [ -f contributions.json ]; then
-            # If file exists, update its contents
+            # Read existing contributions and append a new entry
+            # Convert the existing content to an array, then add the new object
             jq --arg name "psycho237-prog" --arg date "$current_date" \
             '. += [{"name": $name, "date": $date}]' contributions.json > contributions_temp.json
             mv contributions_temp.json contributions.json
           else
-            # If file does not exist, create it
+            # If file does not exist, create it with the new entry as an array
             echo '[{"name": "psycho237-prog", "date": "'$current_date'"}]' > contributions.json
           fi
 
