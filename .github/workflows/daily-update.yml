@@ -1,29 +1,33 @@
-name: Frequent Contribution
+name: Frequent Contribution  # Name of the workflow
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *'  # Schedule: This runs the workflow every 5 minutes
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for the runner
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          clean: true
+          clean: true  # Ensure the repository is clean before checking out
 
       - name: Update JSON file
         run: |
-          echo '{"name": "psycho237-prog", "date": "$(date)"}' >> contributions.json
+          # Append a new entry in contributions.json with the current date
+          echo '{"name": "psycho237-prog", "date": "'$(date)'"}' >> contributions.json
 
       - name: Configure Git
         run: |
-          git config --global user.email "gregoirelegrandpsycho@gmail.com"
-          git config --global user.name "psycho237-prog"
+          # Set up global Git user settings
+          git config --global user.email "gregoirelegrandpsycho@gmail.com"  # Your correct email
+          git config --global user.name "psycho237-prog"  # Your GitHub username
           
       - name: Commit and push changes
         run: |
+          # Add contributions.json to Git and commit changes
           git add contributions.json
-          git commit -m "Frequent contribution update" || echo "No changes to commit"
-          git push
+          git commit -m "Frequent contribution update" || echo "No changes to commit"  # Avoid failure if no changes
+          git push  # Push the changes to the repository
