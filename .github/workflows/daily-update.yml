@@ -19,7 +19,7 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.email "gregoirelegrand14@gmail.com"
+          git config --global user.email "gregoirelegrandpsycho@gmail.com"
           git config --global user.name "psycho237-prog"
           
       - name: Commit and push changes
