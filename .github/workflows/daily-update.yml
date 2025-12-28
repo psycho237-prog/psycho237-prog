@@ -2,7 +2,7 @@ name: Frequent Contribution
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # This runs every 5 minutes
+    - cron: '*/5 * * * *'
 
 jobs:
   update:
