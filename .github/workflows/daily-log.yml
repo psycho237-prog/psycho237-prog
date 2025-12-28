@@ -1,0 +1,63 @@
+name: Daily Developer Log
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-dev-log
+  cancel-in-progress: false
+
+on:
+  schedule:
+    - cron: '0 12 * * *'   # Runs once per day at 12:00 UTC (workflow starts then)
+  workflow_dispatch:
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout the repo
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # 2️⃣ Generate daily log entry with random time
+      - name: Generate daily log entry with random time
+        run: |
+          # Random hour between 9 and 21 UTC
+          RANDOM_HOUR=$((9 + RANDOM % 13))
+          RANDOM_MINUTE=$((RANDOM % 60))
+          DATE=$(date -u +"%Y-%m-%d")
+          TIME=$(printf "%02d:%02d UTC" $RANDOM_HOUR $RANDOM_MINUTE)
+
+          # Array of messages
+          MESSAGES=(
+            "Worked on personal tooling and automation."
+            "Reviewed GitHub Actions workflows."
+            "Improved repository maintenance tasks."
+            "Experimented with CI/CD automation."
+            "Refined developer workflow."
+          )
+
+          # Pick a random message
+          MESSAGE=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+
+          # Append entry to log file (creates file if it doesn't exist)
+          echo "- **$DATE ($TIME)** — $MESSAGE" >> daily-log.md
+
+      # 3️⃣ Configure Git
+      - name: Configure Git
+        run: |
+          git config user.name "psycho237-prog"
+          git config user.email "gregoirelegrandpsycho@gmail.com"
+
+      # 4️⃣ Commit and push changes using PAT
+      - name: Commit and push
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git add daily-log.md
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: update daily dev log"
+          git pull --rebase origin main
+          git push https://$PAT_TOKEN@github.com/psycho237-prog/psycho237-prog.git main
