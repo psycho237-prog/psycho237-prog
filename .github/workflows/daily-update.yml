@@ -1,0 +1,24 @@
+name: Frequent Contribution
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # This runs every 5 minutes
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update JSON file
+        run: |
+          echo '{"name": "psycho237-prog", "date": "$(date)"}' >> contributions.json
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "gregoirelegrand14@gmail.com"
+          git config --global user.name "psycho237-prog"
+          git add contributions.json
+          git commit -m "Frequent contribution update"
+          git push
