@@ -42,8 +42,8 @@ jobs:
           # Pick a random message
           MESSAGE=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
 
-          # Append entry to log file (creates file if it doesn't exist)
-          echo "- **$DATE ($TIME)** — $MESSAGE" >> daily-log.md
+          # Overwrite log file (creates file if it doesn't exist)
+          echo "- **$DATE ($TIME)** — $MESSAGE" > daily-log.md
 
       # 3️⃣ Configure Git
       - name: Configure Git
