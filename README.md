@@ -7,7 +7,7 @@
 ### 🛠️ System Status
 | Component | Status |
 | :--- | :--- |
-| **Brain** | 🧠 Processing new tech... |
+| **Brain** | 🧠 Processing New tech... |
 | **Coffee Level** | ☕ High |
 | **Current Project** | 🏗️ Building XYBERCLAN Community |
 | **Mood** | 💻 Geeky |
