@@ -1,0 +1,32 @@
+name: Global Activity Update
+
+on:
+  repository_dispatch:
+    types: [update-profile]
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Profile Repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Update Activity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
+          REPO_NAME="${{ github.event.client_payload.repository || 'Background Sync' }}"
+          
+          # Update the "Brain" line with the repo name and timestamp
+          sed -i "s/\*\*Brain\*\* | 🧠 .*/\*\*Brain\*\* | 🧠 Activity detected in $REPO_NAME (Synced: $TIMESTAMP) |/" README.md
+          
+          git add README.md
+          git commit -m "Global Update: Activity in $REPO_NAME detected" || exit 0
+          git push origin main
