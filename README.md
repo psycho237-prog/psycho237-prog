@@ -7,9 +7,9 @@
 ### 🛠️ System Status
 | Component | Status |
 | :--- | :--- |
-| **Brain** | 🧠 Processing New tech... |
+| **Brain** | 🧠 Mastering 3D Web Experiences |
 | **Coffee Level** | ☕ High |
-| **Current Project** | 🏗️ Building XYBERCLAN Community |
+| **Current Project** | 🍹 [Jus Tropical Luxe](https://github.com/psycho237-prog/fruit-exotic-site) |
 | **Mood** | 💻 Geeky |
 
 ---
