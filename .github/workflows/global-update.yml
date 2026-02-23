@@ -45,3 +45,19 @@ jobs:
           git add README.md
           git commit -m "Automated Profile Sync: Newest activity detected in $REPO_NAME" || exit 0
           git push origin main
+
+      - name: Notify via WhatsApp
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 --json name,updatedAt --jq '.[] | select(.name != "psycho237-prog")' | head -n 1 | jq -r '.name')
+          MESSAGE="✅ *Profile Synced*\nLatest activity detected in: *$LATEST_REPO*"
+          
+          # Create notification file in the relay repo using GitHub API
+          JSON_CONTENT=$(printf '{"message": "%s"}' "$MESSAGE")
+          B64_CONTENT=$(echo -n "$JSON_CONTENT" | base64 -w 0)
+          
+          gh api --method PUT /repos/psycho237-prog/perpetual-node-relay/contents/notifications/notif-profile-$(date +%s).json \
+            -f message="WhatsApp Notify" \
+            -f content="$B64_CONTENT"
