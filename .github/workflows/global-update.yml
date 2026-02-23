@@ -1,10 +1,8 @@
-name: Global Activity Update
+name: Global Profile Sync (Pull Model)
 
 on:
-  repository_dispatch:
-    types: [update-profile]
   schedule:
-    - cron: '0 */6 * * *' # Every 6 hours
+    - cron: '0 * * * *' # Every hour
   workflow_dispatch:
 
 jobs:
@@ -16,17 +14,34 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
 
-      - name: Update Activity
+      - name: Fetch Latest Activity and Update README
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
+
+          # Use GitHub CLI to get the most recently updated repository (excluding the profile repo itself)
+          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 --json name,updatedAt,url --jq '.[] | select(.name != "psycho237-prog")' | head -n 1)
+          REPO_NAME=$(echo $LATEST_REPO | jq -r '.name')
+          REPO_URL=$(echo $LATEST_REPO | jq -r '.url')
           TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
-          REPO_NAME="${{ github.event.client_payload.repository || 'Background Sync' }}"
+
+          if [ -z "$REPO_NAME" ]; then
+            echo "No recent repository found."
+            exit 0
+          fi
+
+          echo "Latest repo found: $REPO_NAME ($REPO_URL)"
+
+          # Update the "Brain" and "Current Project" sections
+          # 1. Update Brain with Sync Timestamp
+          sed -i "s/\*\*Brain\*\* | 🧠 .*/\*\*Brain\*\* | 🧠 Mastering 3D Web Experiences (Last Pull: $TIMESTAMP) |/" README.md
           
-          # Update the "Brain" line with the repo name and timestamp
-          sed -i "s/\*\*Brain\*\* | 🧠 .*/\*\*Brain\*\* | 🧠 Activity detected in $REPO_NAME (Synced: $TIMESTAMP) |/" README.md
-          
+          # 2. Update Current Project with the latest repo
+          sed -i "s/\*\*Current Project\*\* | .*/\*\*Current Project\*\* | 🚀 [$REPO_NAME]($REPO_URL) |/" README.md
+
+          # Commit and Push
           git add README.md
-          git commit -m "Global Update: Activity in $REPO_NAME detected" || exit 0
+          git commit -m "Automated Profile Sync: Newest activity detected in $REPO_NAME" || exit 0
           git push origin main
