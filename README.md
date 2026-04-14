@@ -1,16 +1,24 @@
 # 👨‍💻 Hello, I'm Psycho!
 
-### 🚀 Founder of [XYBERCLAN](https://github.com/CYBERCLAN237) | Tech Enthusiast | Open Source Contributor
+### 🚀 Founder of [XYBERCLAN](https://github.com/CYBERCLAN237) | AI Architect | Full-Stack Developer | Open Source Contributor
 
 ---
 
 ### 🛠️ System Status
 | Component | Status |
 | :--- | :--- |
-| **Brain** | 🧠 Mastering 3D Web Experiences |
-| **Coffee Level** | ☕ High |
-| **Current Project** | 🍹 [Jus Tropical Luxe](https://github.com/psycho237-prog/fruit-exotic-site) |
-| **Mood** | 💻 Geeky |
+| **Brain** | 🧠 Mastering AI RAG Systems & IoT Integration |
+| **Coffee Level** | ☕ High-Performance Mode |
+| **Current Project** | 🛡️ [AgriShield](https://github.com/psycho237-prog/AgriShield) - Smart Agricultural Monitoring |
+| **Mood** | 🚀 Ready to Automate the World |
+
+---
+
+### 🌟 Recent Innovations
+- **🛡️ AgriShield**: A comprehensive IoT & AI solution for crop health monitoring, featuring ESP32 integration and real-time alerts.
+- **🤖 Sovereign AI Lab**: Privacy-focused institutional AI with RAG (Retrieval-Augmented Generation) and local LLM deployment.
+- **📱 AttendQR**: A robust, local-first offline QR-based attendance system using PHP and SQLite.
+- **🛒 Akiba Kiosk**: A modern self-ordering kiosk system for multi-restaurant management.
 
 ---
 
@@ -19,9 +27,11 @@
 <p align="left">
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" />
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" />
 </p>
 
 ---
