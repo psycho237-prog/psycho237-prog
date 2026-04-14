@@ -18,7 +18,6 @@
 - **🛡️ AgriShield**: A comprehensive IoT & AI solution for crop health monitoring, featuring ESP32 integration and real-time alerts.
 - **🤖 Sovereign AI Lab**: Privacy-focused institutional AI with RAG (Retrieval-Augmented Generation) and local LLM deployment.
 - **📱 AttendQR**: A robust, local-first offline QR-based attendance system using PHP and SQLite.
-- **🛒 Akiba Kiosk**: A modern self-ordering kiosk system for multi-restaurant management.
 
 ---
 
@@ -66,7 +65,7 @@
 
 ### ⌨️ Terminal Command
 ```bash
-$ curl -s https://xyber-clan.vercel.app/api/psycho | jq .
+$ curl -s https://xyberclan.dev/api/psycho | jq .
 {
   "name": "Psycho",
   "motto": "Empowering the next generation of tech enthusiasts.",
