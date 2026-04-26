@@ -2,7 +2,7 @@ name: Global Profile Sync (Pull Model)
 
 on:
   schedule:
-    - cron: '0 * * * *' # Every hour
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -21,29 +21,27 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Use GitHub CLI to get the most recently updated repository (excluding the profile repo itself)
-          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 --json name,updatedAt,url --jq '.[] | select(.name != "psycho237-prog")' | head -n 1)
-          REPO_NAME=$(echo $LATEST_REPO | jq -r '.name')
-          REPO_URL=$(echo $LATEST_REPO | jq -r '.url')
+          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 \
+            --json name,updatedAt,url \
+            --jq '[.[] | select(.name != "psycho237-prog")] | sort_by(.updatedAt) | reverse | .[0]')
+
+          REPO_NAME=$(echo "$LATEST_REPO" | jq -r '.name')
+          REPO_URL=$(echo "$LATEST_REPO"  | jq -r '.url')
           TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
 
-          if [ -z "$REPO_NAME" ]; then
+          if [ -z "$REPO_NAME" ] || [ "$REPO_NAME" = "null" ]; then
             echo "No recent repository found."
             exit 0
           fi
 
-          echo "Latest repo found: $REPO_NAME ($REPO_URL)"
+          echo "Latest repo: $REPO_NAME ($REPO_URL)"
 
-          # Update the "Brain" and "Current Project" sections
-          # 1. Update Brain with Sync Timestamp
-          sed -i "s/\*\*Brain\*\* | 🧠 .*/\*\*Brain\*\* | 🧠 Mastering 3D Web Experiences (Last Pull: $TIMESTAMP) |/" README.md
-          
-          # 2. Update Current Project with the latest repo
-          sed -i "s/\*\*Current Project\*\* | .*/\*\*Current Project\*\* | 🚀 [$REPO_NAME]($REPO_URL) |/" README.md
+          sed -i "s|\*\*Brain\*\* | 🧠 .*|\*\*Brain\*\* | 🧠 Mastering 3D Web Experiences (Last Pull: $TIMESTAMP) ||" README.md
+          sed -i "s|\*\*Current Project\*\* | .*|\*\*Current Project\*\* | 🚀 [$REPO_NAME]($REPO_URL) ||" README.md
 
-          # Commit and Push
           git add README.md
-          git commit -m "Automated Profile Sync: Newest activity detected in $REPO_NAME" || exit 0
+          git diff --staged --quiet && { echo "Nothing to commit."; exit 0; }
+          git commit -m "Automated Profile Sync: Newest activity detected in $REPO_NAME"
           git push origin main
 
       - name: Notify via WhatsApp
@@ -51,13 +49,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 --json name,updatedAt --jq '.[] | select(.name != "psycho237-prog")' | head -n 1 | jq -r '.name')
+          LATEST_REPO=$(gh repo list psycho237-prog --limit 5 \
+            --json name,updatedAt \
+            --jq '[.[] | select(.name != "psycho237-prog")] | sort_by(.updatedAt) | reverse | .[0].name')
+
           MESSAGE="✅ *Profile Synced*\nLatest activity detected in: *$LATEST_REPO*"
-          
-          # Create notification file in the relay repo using GitHub API
           JSON_CONTENT=$(printf '{"message": "%s"}' "$MESSAGE")
-          B64_CONTENT=$(echo -n "$JSON_CONTENT" | base64 -w 0)
-          
-          gh api --method PUT /repos/psycho237-prog/perpetual-node-relay/contents/notifications/notif-profile-$(date +%s).json \
+          B64_CONTENT=$(echo -n "$JSON_CONTENT" | base64 | tr -d '\n')
+
+          gh api --method PUT \
+            /repos/psycho237-prog/perpetual-node-relay/contents/notifications/notif-profile-$(date +%s).json \
             -f message="WhatsApp Notify" \
             -f content="$B64_CONTENT"
