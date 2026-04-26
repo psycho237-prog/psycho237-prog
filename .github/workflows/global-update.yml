@@ -36,8 +36,8 @@ jobs:
 
           echo "Latest repo: $REPO_NAME ($REPO_URL)"
 
-          sed -i "s|\*\*Brain\*\* | 🧠 .*|\*\*Brain\*\* | 🧠 Mastering 3D Web Experiences (Last Pull: $TIMESTAMP) ||" README.md
-          sed -i "s|\*\*Current Project\*\* | .*|\*\*Current Project\*\* | 🚀 [$REPO_NAME]($REPO_URL) ||" README.md
+          sed -i "s|\*\*Brain\*\*.*|\*\*Brain\*\* |  Mastering 3D Web Experiences (Last Pull: $TIMESTAMP) ||" README.md
+          sed -i "s|\*\*Current Project\*\*.*|\*\*Current Project\*\* |  [$REPO_NAME]($REPO_URL) ||" README.md
 
           git add README.md
           git diff --staged --quiet && { echo "Nothing to commit."; exit 0; }
