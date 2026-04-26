@@ -12,11 +12,11 @@ jobs:
       - name: Checkout Profile Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Fetch Latest Activity and Update README
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -47,7 +47,7 @@ jobs:
       - name: Notify via WhatsApp
         if: success()
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           LATEST_REPO=$(gh repo list psycho237-prog --limit 5 \
             --json name,updatedAt \
