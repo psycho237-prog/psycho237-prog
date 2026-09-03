@@ -1,6 +1,6 @@
 # 👨‍💻 Hello, I'm Psycho!
 
-### 🚀 Founder of [XYBERCLAN](https://github.com/CYBERCLAN237) | AI Architect | Full-Stack Developer | Open Source Contributor
+### 🚀 Founder of [XYBERCLAN](https://github.com/XYBERCLAN) | AI Architect | Full-Stack Developer | Open Source Contributor
 
 ---
 
