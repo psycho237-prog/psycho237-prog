@@ -9,7 +9,7 @@
 | :--- | :--- |
 | **Brain** | 🧠 Mastering AI RAG Systems & IoT Integration |
 | **Coffee Level** | ☕ High-Performance Mode |
-| **Current Project** | 🛡️ [AgriShield](https://github.com/psycho237-prog/AgriShield) - Smart Agricultural Monitoring |
+| **Current Project** | 🛡️ [VORA](https://github.com/psycho237-prog/VORA) - VTC APP |
 | **Mood** | 🚀 Ready to Automate the World |
 
 ---
